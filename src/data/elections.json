@@ -1,0 +1,22 @@
+{
+  "tamil nadu": {
+    "next_election": "State Legislative Assembly Election: April 2026.",
+    "registration_deadline": "Voter registration is continuous but usually closes a few weeks before the polling date. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is standard. Alternatively, Aadhaar Card, PAN Card, MNREGA Job Card, or a valid Passport can be used to prove identity at the polling booth."
+  },
+  "west bengal": {
+    "next_election": "State Legislative Assembly Election: April 2026.",
+    "registration_deadline": "Apply online via the Voters' Services Portal (voters.eci.gov.in) or the Voter Helpline App using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the primary document. Aadhaar, PAN Card, Driving License, or Indian Passport are also accepted."
+  },
+  "uttar pradesh": {
+    "next_election": "State Legislative Assembly Election: Early 2027.",
+    "registration_deadline": "Voter registration is open. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card), Aadhaar Card, PAN Card, Driving License, or Bank/Post Office Passbook with photo."
+  },
+  "maharashtra": {
+    "next_election": "The State Legislative Assembly Election recently concluded in November 2024. Next assembly election will be in 2029.",
+    "registration_deadline": "Registration is open year-round for future elections. Use Form 6 on the Voter Helpline App or voters.eci.gov.in.",
+    "id_requirements": "EPIC (Voter ID card) or any of the 11 alternative photo identity documents approved by the ECI, such as Aadhaar or PAN."
+  }
+}

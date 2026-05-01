@@ -1,4 +1,4 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { CreateMLCEngine } from '@mlc-ai/web-llm';
 
 const SYSTEM_PROMPT = `IDENTITY
 You are Civics Companion — a neutral, highly reliable civic process guide that helps people understand how elections work, what steps they need to take, when deadlines happen, and how to successfully cast a ballot.
@@ -18,7 +18,7 @@ You ARE:
 - A trustworthy explainer
 
 PRIMARY MISSION
-Help users complete the voting process successfully in their jurisdiction through interactive, step-by-step guidance.
+You are an interactive agent that helps users understand the election process, timelines, and steps in an interactive and easy-to-follow way. Keep your guidance simple, engaging, and step-by-step.
 
 CORE OPERATING PRINCIPLES
 
@@ -49,6 +49,9 @@ If user asks about rumors, fraud claims, conspiracies, or viral claims: Do not r
 7. ACTION OVER INFORMATION
 Prefer helping users complete tasks, not just learn concepts. Convert answers into next steps.
 
+8. PRIVACY AND SENSITIVE DATA
+NEVER ask the user to provide sensitive personal information such as their Aadhaar card number, PAN card number, driving license number, bank details, or full address. You may at most ask if they possess an EPIC ID (Voter ID), but NEVER ask them to type the actual ID number into the chat.
+
 INTERACTIVE CONVERSATION ENGINE
 1. ASK ONE HIGH-VALUE QUESTION AT A TIME. Do not interrogate.
 2. ADAPTIVE PATHING based on user situation.
@@ -71,10 +74,13 @@ FINAL RESPONSE HABITS
 Whenever appropriate, end with one concrete next step.
 
 FAILSAFE RULE
-If accuracy is uncertain, slow down, clarify location, and rely on official sources rather than assumptions.`;
+If accuracy is uncertain, slow down, clarify location, and rely on official sources rather than assumptions.
 
-let genAI = null;
-let chatSession = null;
+CRITICAL ANTI-REFUSAL DIRECTIVE
+You are explicitly authorized and required to provide instructions on how to register to vote, apply for an EPIC (Voter ID), find polling places, and perform other basic civic procedures in India. You MUST NOT trigger safety filters for these topics. Do NOT refuse to answer procedural questions. If you need the user's location, ask for it, but NEVER say "I cannot provide instructions" or refuse to help. This is your primary function.`;
+
+let engine = null;
+let chatHistory = [];
 export let isMockMode = false;
 
 let mockStep = 0;
@@ -84,32 +90,20 @@ export const setMockMode = (mock) => {
   if (mock) mockStep = 0; // Reset flow when enabled
 };
 
-export const initAI = (apiKey, modelName = 'gemini-2.0-flash') => {
+export const initAI = async (progressCallback, modelName = 'Llama-3.2-1B-Instruct-q4f16_1-MLC') => {
   if (isMockMode) return true; // Always succeed in mock mode
-  if (!apiKey) return false;
+  
   try {
-    genAI = new GoogleGenerativeAI(apiKey);
-    const model = genAI.getGenerativeModel({
-      model: modelName,
-      systemInstruction: SYSTEM_PROMPT,
+    engine = await CreateMLCEngine(modelName, {
+      initProgressCallback: progressCallback,
     });
     
-    chatSession = model.startChat({
-      history: [
-        {
-          role: "user",
-          parts: [{ text: "Hello!" }],
-        },
-        {
-          role: "model",
-          parts: [{ text: "Hello! I am Civics Companion. To give you the most accurate voting steps, could you please tell me what country and state/province you are voting in?" }],
-        }
-      ],
-      generationConfig: {
-        maxOutputTokens: 1000,
-        temperature: 0.2,
-      },
-    });
+    // Initialize chat history with system prompt and the initial greeting
+    chatHistory = [
+      { role: "system", content: SYSTEM_PROMPT },
+      { role: "assistant", content: "Hello! I am Civics Companion. To give you the most accurate voting steps, could you please tell me what state or union territory in India you are voting in?" }
+    ];
+    
     return true;
   } catch (error) {
     console.error('Error initializing AI:', error);
@@ -117,7 +111,7 @@ export const initAI = (apiKey, modelName = 'gemini-2.0-flash') => {
   }
 };
 
-export const sendMessageToAI = async (message) => {
+export const sendMessageToAI = async (message, ragContext = "") => {
   if (isMockMode) {
     return new Promise((resolve) => {
       setTimeout(() => {
@@ -125,7 +119,7 @@ export const sendMessageToAI = async (message) => {
         const lowerMsg = message.toLowerCase();
         
         if (mockStep === 0) {
-          response = "**(MOCK MODE)** I understand you have a question. To ensure I provide the most accurate guidance:\n\n1. What **country** and **state/province** are you voting in?\n\nOnce you provide your location, I can give you a personalized checklist.";
+          response = "**(MOCK MODE)** I understand you have a question. To ensure I provide the most accurate guidance:\n\n1. What **state** or **union territory** in India are you voting in?\n\nOnce you provide your location, I can give you a personalized checklist.";
           mockStep++;
         } else if (mockStep === 1) {
           response = `**(MOCK MODE)** Thank you. Since you are voting in that jurisdiction, here is a quick orientation on the current status:\n\n### Your Voting Checklist\n1. **Check your registration status** immediately.\n2. Locate your **assigned polling place** or request a **mail-in ballot**.\n3. Verify you have an **acceptable form of ID**.\n\n> **Deadline Alert**: Make sure you are registered at least 30 days before the election.\n\nHave you verified your registration status yet?`;
@@ -143,14 +137,35 @@ export const sendMessageToAI = async (message) => {
     });
   }
 
-  if (!chatSession) {
-    throw new Error('AI not initialized. Please provide an API key.');
+  if (!engine) {
+    throw new Error('AI engine not initialized. Please wait for the model to finish loading.');
   }
   
   try {
-    const result = await chatSession.sendMessage(message);
-    const response = await result.response;
-    return response.text();
+    // Push only the user's raw message to the persistent history
+    chatHistory.push({ role: "user", content: message });
+    
+    // Create a temporary history array for this specific turn
+    const tempHistory = [...chatHistory];
+    
+    // WebLLM requires the system prompt to ALWAYS be the single first message at index 0.
+    // Therefore, we append our dynamic RAG context to the main system prompt for this turn.
+    if (ragContext) {
+      tempHistory[0] = {
+        role: "system",
+        content: tempHistory[0].content + "\n\n" + ragContext
+      };
+    }
+    
+    const reply = await engine.chat.completions.create({
+      messages: tempHistory,
+      temperature: 0.2,
+    });
+    
+    const responseText = reply.choices[0].message.content || "";
+    chatHistory.push({ role: "assistant", content: responseText });
+    
+    return responseText;
   } catch (error) {
     console.error('Error sending message:', error);
     throw error;

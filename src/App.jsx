@@ -1,88 +1,79 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Settings, Send, Landmark, User, Bot, AlertCircle } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { Settings, Send, Landmark, User, Bot, Loader2, ExternalLink } from 'lucide-react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { initAI, sendMessageToAI, setMockMode } from './utils/ai';
+import { detectLocationAndGetContext } from './utils/location';
 
 const App = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
       role: 'bot',
-      text: "Hello! I am Civics Companion. To give you the most accurate voting steps, could you please tell me what country and state/province you are voting in?"
+      text: "Hello! I am Civics Companion. To give you the most accurate voting steps, could you please tell me what state or union territory in India you are voting in?"
     }
   ]);
   const [inputValue, setInputValue] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showSettings, setShowSettings] = useState(false);
-  const [apiKey, setApiKey] = useState(localStorage.getItem('gemini_api_key') || '');
   const [mockModeEnabled, setMockModeEnabled] = useState(localStorage.getItem('gemini_mock_mode') === 'true');
-  const [availableModels, setAvailableModels] = useState([
-    'gemini-3.0-flash',
-    'gemini-2.5-flash',
-    'gemini-2.0-flash',
-    'gemini-1.5-flash'
-  ]);
-  const [fetchingModels, setFetchingModels] = useState(false);
   const [isAiInitialized, setIsAiInitialized] = useState(false);
+  const [downloadProgress, setDownloadProgress] = useState({ text: 'Initializing engine...', progress: 0 });
   const chatEndRef = useRef(null);
+  const initializedRef = useRef(false);
 
   useEffect(() => {
     setMockMode(mockModeEnabled);
+    
+    // Prevent double initialization in React StrictMode
+    if (initializedRef.current) return;
+    
     if (mockModeEnabled) {
       setIsAiInitialized(true);
-    } else if (apiKey) {
-      const selectedModel = localStorage.getItem('gemini_model') || availableModels[0];
-      const initialized = initAI(apiKey, selectedModel);
-      setIsAiInitialized(initialized);
+      initializedRef.current = true;
     } else {
-      setIsAiInitialized(false);
-    }
-  }, [apiKey, mockModeEnabled, availableModels]);
-
-  const fetchAvailableModels = async () => {
-    if (!apiKey) return;
-    setFetchingModels(true);
-    try {
-      const res = await fetch(`https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`);
-      const data = await res.json();
-      if (data.models) {
-        const models = data.models
-          .filter(m => m.supportedGenerationMethods && m.supportedGenerationMethods.includes('generateContent'))
-          .map(m => m.name.replace('models/', ''));
-        if (models.length > 0) {
-          setAvailableModels(models);
-          if (!models.includes(localStorage.getItem('gemini_model'))) {
-             localStorage.setItem('gemini_model', models[0]);
-          }
+      const initializeModel = async () => {
+        try {
+          const success = await initAI((progress) => {
+            setDownloadProgress({
+              text: progress.text,
+              progress: Math.round(progress.progress * 100)
+            });
+          });
+          setIsAiInitialized(success);
+          initializedRef.current = true;
+        } catch (error) {
+          console.error("Failed to load model", error);
         }
-      }
-    } catch (err) {
-      console.error('Failed to fetch models:', err);
-    } finally {
-      setFetchingModels(false);
+      };
+      
+      initializeModel();
     }
-  };
+  }, [mockModeEnabled]);
 
   useEffect(() => {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
-  }, [messages, isLoading]);
+  }, [messages, isLoading, downloadProgress]);
 
-  const handleSend = async () => {
-    if (!inputValue.trim() || isLoading) return;
+  const handleSend = async (customText = null) => {
+    // If the event is passed (from onClick), it's not a string, so ignore it
+    const textToProcess = typeof customText === 'string' ? customText : inputValue;
+    if (!textToProcess.trim() || isLoading || !isAiInitialized) return;
 
-    if (!isAiInitialized && !mockModeEnabled) {
-      setShowSettings(true);
-      return;
-    }
-
-    const userMessage = { id: Date.now(), role: 'user', text: inputValue };
+    // Detect state and generate the RAG string
+    const ragContext = detectLocationAndGetContext(textToProcess);
+    
+    // We only display the user's raw input in the UI
+    const userMessage = { id: Date.now(), role: 'user', text: textToProcess };
     setMessages(prev => [...prev, userMessage]);
-    setInputValue('');
+    
+    if (typeof customText !== 'string') {
+      setInputValue('');
+    }
     setIsLoading(true);
 
     try {
-      const responseText = await sendMessageToAI(inputValue);
+      const responseText = await sendMessageToAI(textToProcess, ragContext);
       const botMessage = { id: Date.now() + 1, role: 'bot', text: responseText };
       setMessages(prev => [...prev, botMessage]);
     } catch (error) {
@@ -90,7 +81,7 @@ const App = () => {
       setMessages(prev => [...prev, {
         id: Date.now() + 1, 
         role: 'bot', 
-        text: `Sorry, I encountered an error: **${error.message}**\n\nPlease check your API key and try again.` 
+        text: `Sorry, I encountered an error: **${error.message}**\n\nPlease check your browser's WebGPU support.` 
       }]);
     } finally {
       setIsLoading(false);
@@ -104,20 +95,81 @@ const App = () => {
     }
   };
 
-  const saveApiKey = () => {
-    localStorage.setItem('gemini_api_key', apiKey);
+  const saveSettings = () => {
     localStorage.setItem('gemini_mock_mode', mockModeEnabled);
-    setMockMode(mockModeEnabled);
+    if (mockModeEnabled && !isAiInitialized) {
+        setIsAiInitialized(true);
+    }
+    setShowSettings(false);
+  };
+
+  const renderQuickActions = () => {
+    if (messages.length === 0 || isLoading || !isAiInitialized) return null;
+    const lastMsg = messages[messages.length - 1];
     
-    if (mockModeEnabled) {
-      setIsAiInitialized(true);
-    } else {
-      const selectedModel = localStorage.getItem('gemini_model') || availableModels[0];
-      const initialized = initAI(apiKey, selectedModel);
-      setIsAiInitialized(initialized);
+    if (lastMsg.role !== 'bot') return null;
+
+    const text = lastMsg.text.toLowerCase();
+    
+    // Initial State Detection
+    if (text.includes('what state or union territory')) {
+      return (
+        <div className="quick-actions" style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', width: '100%' }}>
+          <select 
+            onChange={(e) => {
+              if(e.target.value) {
+                handleSend(e.target.value);
+              }
+            }}
+            style={{ flex: 1, padding: '0.75rem', borderRadius: '8px', background: 'var(--surface-color)', color: 'var(--text-primary)', border: '1px solid var(--border-color)', fontSize: '1rem', cursor: 'pointer' }}
+            defaultValue=""
+          >
+            <option value="" disabled>Select your State / Union Territory...</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="West Bengal">West Bengal</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Maharashtra">Maharashtra</option>
+          </select>
+        </div>
+      );
     }
     
-    setShowSettings(false);
+    // Registration Links & Yes/No/Not Sure questions
+    if (text.includes('register') || text.includes('form 6') || text.includes('voters.eci.gov.in') || (text.includes('registered') && text.includes('?'))) {
+      return (
+        <div className="quick-actions" style={{ display: 'flex', gap: '0.5rem', marginBottom: '0.5rem', flexWrap: 'wrap' }}>
+          {text.includes('?') && (
+            <>
+              <button onClick={() => handleSend("Yes, I am registered.")} style={{ padding: '0.5rem 1rem', borderRadius: '20px', background: 'var(--surface-color)', color: 'white', border: '1px solid var(--border-color)', cursor: 'pointer', fontWeight: 500 }}>Yes, I am</button>
+              <button onClick={() => handleSend("No, I am not registered.")} style={{ padding: '0.5rem 1rem', borderRadius: '20px', background: 'var(--surface-color)', color: 'white', border: '1px solid var(--border-color)', cursor: 'pointer' }}>No, I am not</button>
+              <button onClick={() => handleSend("I am not sure.")} style={{ padding: '0.5rem 1rem', borderRadius: '20px', background: 'var(--surface-color)', color: 'white', border: '1px solid var(--border-color)', cursor: 'pointer' }}>Not Sure</button>
+            </>
+          )}
+          
+          <a 
+            href="https://voters.eci.gov.in/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            style={{ 
+              padding: '0.5rem 1rem', 
+              borderRadius: '20px', 
+              background: '#2196F3', 
+              color: 'white', 
+              textDecoration: 'none', 
+              display: 'flex', 
+              alignItems: 'center', 
+              gap: '0.25rem', 
+              fontWeight: 500,
+              boxShadow: '0 2px 4px rgba(0,0,0,0.2)'
+            }}
+          >
+            Apply Online (NVSP Portal) <ExternalLink size={14} />
+          </a>
+        </div>
+      );
+    }
+
+    return null;
   };
 
   return (
@@ -139,13 +191,36 @@ const App = () => {
 
       {/* Chat Area */}
       <div className="chat-area">
-        {!isAiInitialized && (
+        {!isAiInitialized && !mockModeEnabled && (
           <div className="message bot">
             <div className="avatar">
-              <AlertCircle size={20} color="var(--accent-color)" />
+              <Loader2 size={20} color="var(--accent-color)" style={{ animation: 'spin 2s linear infinite' }} />
+              <style>
+                {`
+                  @keyframes spin {
+                    0% { transform: rotate(0deg); }
+                    100% { transform: rotate(360deg); }
+                  }
+                `}
+              </style>
             </div>
-            <div className="message-content" style={{ borderColor: 'var(--accent-color)' }}>
-              Welcome to Civics Companion! Please set your Gemini API key in the settings to start our conversation.
+            <div className="message-content" style={{ borderColor: 'var(--accent-color)', width: '100%', maxWidth: '100%' }}>
+              <div style={{ marginBottom: '10px' }}>
+                <strong>Loading Local AI Model...</strong> This happens entirely in your browser. The first load will download about 1GB of data.
+              </div>
+              <div style={{ background: '#333', borderRadius: '4px', overflow: 'hidden', height: '10px', width: '100%' }}>
+                <div 
+                  style={{ 
+                    background: 'var(--accent-color)', 
+                    height: '100%', 
+                    width: `${downloadProgress.progress}%`,
+                    transition: 'width 0.3s ease'
+                  }} 
+                />
+              </div>
+              <div style={{ marginTop: '5px', fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                {downloadProgress.text} ({downloadProgress.progress}%)
+              </div>
             </div>
           </div>
         )}
@@ -183,20 +258,21 @@ const App = () => {
 
       {/* Input Area */}
       <div className="input-area">
+        {renderQuickActions()}
         <div className="input-container">
           <textarea
             className="chat-input"
             value={inputValue}
             onChange={(e) => setInputValue(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder="Type your message here..."
+            placeholder={isAiInitialized ? "Type your message here..." : "Downloading AI model..."}
             rows={1}
-            disabled={!isAiInitialized && !mockModeEnabled}
+            disabled={!isAiInitialized}
           />
           <button 
             className="send-btn" 
             onClick={handleSend}
-            disabled={!inputValue.trim() || isLoading || (!isAiInitialized && !mockModeEnabled)}
+            disabled={!inputValue.trim() || isLoading || !isAiInitialized}
           >
             <Send size={20} />
           </button>
@@ -220,50 +296,12 @@ const App = () => {
                 style={{ width: '1.25rem', height: '1.25rem' }}
               />
               <label htmlFor="mockMode" style={{ marginBottom: 0, color: 'white', fontWeight: 500 }}>
-                Enable Mock Mode (No API key required)
+                Enable Mock Mode (Skip local model download for fast testing)
               </label>
             </div>
-            <div className="form-group" style={{ opacity: mockModeEnabled ? 0.5 : 1, pointerEvents: mockModeEnabled ? 'none' : 'auto' }}>
-              <label htmlFor="apiKey">Gemini API Key</label>
-              <input
-                id="apiKey"
-                type="password"
-                className="api-input"
-                value={apiKey}
-                onChange={(e) => setApiKey(e.target.value)}
-                placeholder="Enter your Gemini API key"
-              />
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginTop: '0.5rem' }}>
-                <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
-                  Stored locally.
-                </p>
-                <button 
-                  onClick={fetchAvailableModels} 
-                  disabled={!apiKey || fetchingModels}
-                  style={{ background: 'transparent', border: '1px solid var(--accent-color)', color: 'var(--accent-color)', borderRadius: '4px', padding: '0.25rem 0.5rem', fontSize: '0.75rem', cursor: 'pointer' }}
-                >
-                  {fetchingModels ? 'Fetching...' : 'Fetch Models'}
-                </button>
-              </div>
-            </div>
-            <div className="form-group" style={{ opacity: mockModeEnabled ? 0.5 : 1, pointerEvents: mockModeEnabled ? 'none' : 'auto' }}>
-              <label htmlFor="modelSelect">AI Model</label>
-              <select
-                id="modelSelect"
-                className="api-input"
-                value={localStorage.getItem('gemini_model') || availableModels[0]}
-                onChange={(e) => {
-                  localStorage.setItem('gemini_model', e.target.value);
-                  setAvailableModels([...availableModels]); // trigger re-render
-                }}
-              >
-                {availableModels.map(model => (
-                  <option key={model} value={model}>{model}</option>
-                ))}
-              </select>
-            </div>
-            <button className="save-btn" onClick={saveApiKey}>
-              Save and Connect
+            
+            <button className="save-btn" onClick={saveSettings}>
+              Save Settings
             </button>
           </div>
         </div>
