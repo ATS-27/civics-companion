@@ -1,10 +1,42 @@
 import electionsData from '../data/elections.json';
 
 const STATE_MAPPINGS = {
+  "andaman and nicobar islands": ["andaman and nicobar islands", "andaman", "nicobar"],
+  "andhra pradesh": ["andhra pradesh", "ap", "andhra"],
+  "arunachal pradesh": ["arunachal pradesh", "arunachal"],
+  "assam": ["assam"],
+  "bihar": ["bihar"],
+  "chandigarh": ["chandigarh"],
+  "chhattisgarh": ["chhattisgarh", "cg"],
+  "dadra and nagar haveli and daman and diu": ["dadra and nagar haveli", "daman and diu", "dadra", "daman", "diu"],
+  "delhi": ["delhi", "new delhi", "nct"],
+  "goa": ["goa"],
+  "gujarat": ["gujarat", "gj"],
+  "haryana": ["haryana", "hr"],
+  "himachal pradesh": ["himachal pradesh", "hp", "himachal"],
+  "jammu and kashmir": ["jammu and kashmir", "j&k", "jammu", "kashmir"],
+  "jharkhand": ["jharkhand", "jh"],
+  "karnataka": ["karnataka", "ka"],
+  "kerala": ["kerala", "kl"],
+  "ladakh": ["ladakh"],
+  "lakshadweep": ["lakshadweep"],
+  "madhya pradesh": ["madhya pradesh", "mp"],
+  "maharashtra": ["maharashtra", "mh"],
+  "manipur": ["manipur"],
+  "meghalaya": ["meghalaya"],
+  "mizoram": ["mizoram"],
+  "nagaland": ["nagaland"],
+  "odisha": ["odisha", "orissa"],
+  "puducherry": ["puducherry", "pondicherry"],
+  "punjab": ["punjab", "pb"],
+  "rajasthan": ["rajasthan", "rj"],
+  "sikkim": ["sikkim"],
   "tamil nadu": ["tamil nadu", "tn"],
-  "west bengal": ["west bengal", "wb", "bengal"],
+  "telangana": ["telangana", "ts", "tg"],
+  "tripura": ["tripura"],
   "uttar pradesh": ["uttar pradesh", "up"],
-  "maharashtra": ["maharashtra", "mh"]
+  "uttarakhand": ["uttarakhand", "uk", "uttaranchal"],
+  "west bengal": ["west bengal", "wb", "bengal"]
 };
 
 export const detectLocationAndGetContext = (message) => {

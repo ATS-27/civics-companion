@@ -1,22 +1,182 @@
 {
+  "andaman and nicobar islands": {
+    "next_election": "Upcoming election schedule not officially announced yet. Please check the Election Commission of India website (eci.gov.in) for the latest updates.",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "andhra pradesh": {
+    "next_election": "State Legislative Assembly Election: May 2029 (last held May 2024)",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "arunachal pradesh": {
+    "next_election": "State Legislative Assembly Election: April 2029 (last held April 2024)",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "assam": {
+    "next_election": "State Legislative Assembly Election: April 2026",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "bihar": {
+    "next_election": "State Legislative Assembly Election: November 2025",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "chandigarh": {
+    "next_election": "Upcoming election schedule not officially announced yet. Please check the Election Commission of India website (eci.gov.in) for the latest updates.",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "chhattisgarh": {
+    "next_election": "State Legislative Assembly Election: November 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "dadra and nagar haveli and daman and diu": {
+    "next_election": "Upcoming election schedule not officially announced yet. Please check the Election Commission of India website (eci.gov.in) for the latest updates.",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "delhi": {
+    "next_election": "State Legislative Assembly Election: February 2025",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "goa": {
+    "next_election": "State Legislative Assembly Election: Feb-March 2027",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "gujarat": {
+    "next_election": "State Legislative Assembly Election: December 2027",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "haryana": {
+    "next_election": "State Legislative Assembly Election: October 2029 (last held October 2024)",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "himachal pradesh": {
+    "next_election": "State Legislative Assembly Election: November 2027",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "jammu and kashmir": {
+    "next_election": "State Legislative Assembly Election: September 2029 (last held Sept-Oct 2024)",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "jharkhand": {
+    "next_election": "State Legislative Assembly Election: November 2029 (last held November 2024)",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "karnataka": {
+    "next_election": "State Legislative Assembly Election: May 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "kerala": {
+    "next_election": "State Legislative Assembly Election: April 2026",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "ladakh": {
+    "next_election": "Upcoming election schedule not officially announced yet. Please check the Election Commission of India website (eci.gov.in) for the latest updates.",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "lakshadweep": {
+    "next_election": "Upcoming election schedule not officially announced yet. Please check the Election Commission of India website (eci.gov.in) for the latest updates.",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "madhya pradesh": {
+    "next_election": "State Legislative Assembly Election: November 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "maharashtra": {
+    "next_election": "State Legislative Assembly Election: November 2029 (last held November 2024)",
+    "registration_deadline": "Registration is open year-round for future elections. Use Form 6 on the Voter Helpline App or voters.eci.gov.in.",
+    "id_requirements": "EPIC (Voter ID card) or any of the 11 alternative photo identity documents approved by the ECI, such as Aadhaar or PAN."
+  },
+  "manipur": {
+    "next_election": "State Legislative Assembly Election: Feb-March 2027",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "meghalaya": {
+    "next_election": "State Legislative Assembly Election: February 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "mizoram": {
+    "next_election": "State Legislative Assembly Election: November 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "nagaland": {
+    "next_election": "State Legislative Assembly Election: February 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "odisha": {
+    "next_election": "State Legislative Assembly Election: May 2029 (last held May-June 2024)",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "puducherry": {
+    "next_election": "State Legislative Assembly Election: April 2026",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "punjab": {
+    "next_election": "State Legislative Assembly Election: Feb-March 2027",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "rajasthan": {
+    "next_election": "State Legislative Assembly Election: November 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "sikkim": {
+    "next_election": "State Legislative Assembly Election: April 2029 (last held April 2024)",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
   "tamil nadu": {
-    "next_election": "State Legislative Assembly Election: April 2026.",
+    "next_election": "State Legislative Assembly Election: April 2026",
     "registration_deadline": "Voter registration is continuous but usually closes a few weeks before the polling date. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
     "id_requirements": "EPIC (Voter ID card) is standard. Alternatively, Aadhaar Card, PAN Card, MNREGA Job Card, or a valid Passport can be used to prove identity at the polling booth."
   },
-  "west bengal": {
-    "next_election": "State Legislative Assembly Election: April 2026.",
-    "registration_deadline": "Apply online via the Voters' Services Portal (voters.eci.gov.in) or the Voter Helpline App using Form 6.",
-    "id_requirements": "EPIC (Voter ID card) is the primary document. Aadhaar, PAN Card, Driving License, or Indian Passport are also accepted."
+  "telangana": {
+    "next_election": "State Legislative Assembly Election: November 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "tripura": {
+    "next_election": "State Legislative Assembly Election: February 2028",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
   },
   "uttar pradesh": {
-    "next_election": "State Legislative Assembly Election: Early 2027.",
+    "next_election": "State Legislative Assembly Election: Feb-March 2027",
     "registration_deadline": "Voter registration is open. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
     "id_requirements": "EPIC (Voter ID card), Aadhaar Card, PAN Card, Driving License, or Bank/Post Office Passbook with photo."
   },
-  "maharashtra": {
-    "next_election": "The State Legislative Assembly Election recently concluded in November 2024. Next assembly election will be in 2029.",
-    "registration_deadline": "Registration is open year-round for future elections. Use Form 6 on the Voter Helpline App or voters.eci.gov.in.",
-    "id_requirements": "EPIC (Voter ID card) or any of the 11 alternative photo identity documents approved by the ECI, such as Aadhaar or PAN."
+  "uttarakhand": {
+    "next_election": "State Legislative Assembly Election: Feb-March 2027",
+    "registration_deadline": "Voter registration is generally open year-round except right before an election. Apply online via the Voters' Services Portal (voters.eci.gov.in) using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the standard identity document. Aadhaar, PAN Card, Driving License, Indian Passport, or other ECI-approved documents can also be used."
+  },
+  "west bengal": {
+    "next_election": "State Legislative Assembly Election: April 2026",
+    "registration_deadline": "Apply online via the Voters' Services Portal (voters.eci.gov.in) or the Voter Helpline App using Form 6.",
+    "id_requirements": "EPIC (Voter ID card) is the primary document. Aadhaar, PAN Card, Driving License, or Indian Passport are also accepted."
   }
 }

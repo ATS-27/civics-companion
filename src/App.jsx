@@ -1,11 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
-import { Settings, Send, Landmark, User, Bot, Loader2, ExternalLink } from 'lucide-react';
+import { Settings, Send, User, Bot, Loader2, ExternalLink } from 'lucide-react';
 import { marked } from 'marked';
 import DOMPurify from 'dompurify';
 import { initAI, sendMessageToAI, setMockMode } from './utils/ai';
 import { detectLocationAndGetContext } from './utils/location';
+import LandingPage from './LandingPage';
+import logo from './assets/civics_logo.png';
 
 const App = () => {
+  const [showLanding, setShowLanding] = useState(true);
   const [messages, setMessages] = useState([
     {
       id: 1,
@@ -125,10 +128,42 @@ const App = () => {
             defaultValue=""
           >
             <option value="" disabled>Select your State / Union Territory...</option>
-            <option value="Tamil Nadu">Tamil Nadu</option>
-            <option value="West Bengal">West Bengal</option>
-            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Andaman and Nicobar Islands">Andaman and Nicobar Islands</option>
+            <option value="Andhra Pradesh">Andhra Pradesh</option>
+            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+            <option value="Assam">Assam</option>
+            <option value="Bihar">Bihar</option>
+            <option value="Chandigarh">Chandigarh</option>
+            <option value="Chhattisgarh">Chhattisgarh</option>
+            <option value="Dadra and Nagar Haveli and Daman and Diu">Dadra and Nagar Haveli and Daman and Diu</option>
+            <option value="Delhi">Delhi</option>
+            <option value="Goa">Goa</option>
+            <option value="Gujarat">Gujarat</option>
+            <option value="Haryana">Haryana</option>
+            <option value="Himachal Pradesh">Himachal Pradesh</option>
+            <option value="Jammu and Kashmir">Jammu and Kashmir</option>
+            <option value="Jharkhand">Jharkhand</option>
+            <option value="Karnataka">Karnataka</option>
+            <option value="Kerala">Kerala</option>
+            <option value="Ladakh">Ladakh</option>
+            <option value="Lakshadweep">Lakshadweep</option>
+            <option value="Madhya Pradesh">Madhya Pradesh</option>
             <option value="Maharashtra">Maharashtra</option>
+            <option value="Manipur">Manipur</option>
+            <option value="Meghalaya">Meghalaya</option>
+            <option value="Mizoram">Mizoram</option>
+            <option value="Nagaland">Nagaland</option>
+            <option value="Odisha">Odisha</option>
+            <option value="Puducherry">Puducherry</option>
+            <option value="Punjab">Punjab</option>
+            <option value="Rajasthan">Rajasthan</option>
+            <option value="Sikkim">Sikkim</option>
+            <option value="Tamil Nadu">Tamil Nadu</option>
+            <option value="Telangana">Telangana</option>
+            <option value="Tripura">Tripura</option>
+            <option value="Uttar Pradesh">Uttar Pradesh</option>
+            <option value="Uttarakhand">Uttarakhand</option>
+            <option value="West Bengal">West Bengal</option>
           </select>
         </div>
       );
@@ -172,12 +207,16 @@ const App = () => {
     return null;
   };
 
+  if (showLanding) {
+    return <LandingPage onStart={() => setShowLanding(false)} />;
+  }
+
   return (
     <div className="app-container">
       {/* Header */}
       <header className="header">
         <h1>
-          <Landmark size={24} />
+          <img src={logo} alt="Civics Companion Logo" className="header-logo" style={{ width: '28px', height: '28px' }} />
           Civics Companion
         </h1>
         <button 
